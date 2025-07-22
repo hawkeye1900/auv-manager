@@ -1,0 +1,24 @@
+services:
+  # The PostgreSQL database service
+  db:
+    image: postgres:13  # Use the official PostgreSQL image
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: auv_db  # Set the database name
+    ports:
+      - "5432:5432"  # Expose PostgreSQL on the local port 5432
+
+  # The Flask web application service
+  web:
+    build: .  # Build the image using the Dockerfile in the current directory
+    ports:
+      - "5000:5000"  # Expose Flask app on port 5000
+    command: ./wait-for-db.sh
+    depends_on:
+      - db  # Ensure the database starts before the web app
+    env_file:
+      - .env
+#    environment:
+#      FLASK_ENV: development
+#      DATABASE_URL: postgres://user:password@db:5432/auv_db  # Database connection URL
