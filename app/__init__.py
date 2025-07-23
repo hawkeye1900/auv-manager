@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 
 login_manager = LoginManager()
+login_manager.login_view = 'main.login'
 bcrypt = Bcrypt()
 load_dotenv()
 
