@@ -99,3 +99,23 @@ def register():
     db.session.commit()
 
     return jsonify({'message': 'User registered successfully.'}), 201
+
+@main.route('/login', methods=['POST'])
+def login():
+    print("Logging in")
+    data = request.get_json()
+
+    # Validate input
+    if not data or not data.get('username') or not data.get('password'):
+        return jsonify({'error': 'Username and password are required.'}), 400
+
+    # get user from db
+    user = User.query.filter_by(username=data['username']).first()
+
+    if user and user.check_password(data['password']):
+        login_user(user)
+        return jsonify({'message': 'Login successful'})
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
+
+

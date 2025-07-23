@@ -1,5 +1,5 @@
-from . import db, bcrypt
 from flask_login import UserMixin
+from . import db, bcrypt
 
 
 # auv model/table
@@ -21,6 +21,7 @@ class AUV(db.Model):
             "name": self.name,
             "status": self.status
         }
+
 
 # User model to handle authentication and password checking
 class User(UserMixin, db.Model):
