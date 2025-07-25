@@ -9,10 +9,7 @@ main = Blueprint("main", __name__)
 
 @main.route('/')
 def index():
-    if current_user.is_authenticated:
-        return f"Hello, {current_user.username}!"  # Display logged-in user's username
-    else:
-        return "Hello, Guest!"
+    return render_template('index.html')
 
 # using the route decorator
 @main.route('/check')
@@ -21,87 +18,30 @@ def health_check():
     return {"message": "pong"}
 
 
-# ✅ Create a new AUV
-@main.route('/auv', methods=["POST"])
-@login_required
-def create_auv():
-    data = request.get_json()
-
-    if not data or not data.get('name') or not data.get('status'):
-        return jsonify({"error": "Missing 'name' or 'status'"}), 400
-
-    new_auv = AUV(name=data['name'], status=data['status'])
-    db.session.add(new_auv)
-    db.session.commit()
-
-    return jsonify(new_auv.to_dict()), 201
-
-
-# ✅ Read a single AUV by ID
-@main.route('/auv/<int:auv_id>', methods=['GET'])
-@login_required
-def get_auv(auv_id):
-    auv = AUV.query.get(auv_id)
-    if not auv:
-        return jsonify({"error": "AUV not found"}), 404
-    return jsonify(auv.to_dict())
-
-
-# ✅ Update an AUV
-@main.route('/auv/<int:auv_id>', methods=['PUT'])
-@login_required
-def update_auv(auv_id):
-    auv = AUV.query.get(auv_id)
-    if not auv:
-        return jsonify({"error": "AUV not found"}), 404
-
-    data = request.get_json()
-    if 'name' in data:
-        auv.name = data['name']
-    if 'status' in data:
-        auv.status = data['status']
-
-    db.session.commit()
-    return jsonify(auv.to_dict())
-
-
-# ✅ Delete an AUV
-@main.route('/auv/<int:auv_id>', methods=['DELETE'])
-@login_required
-def delete_auv(auv_id):
-    auv = AUV.query.get(auv_id)
-    if not auv:
-        return jsonify({"error": "AUV not found"}), 404
-
-    db.session.delete(auv)
-    db.session.commit()
-    return jsonify({"message": "AUV deleted"})
-
-
-# ✅ Get all AUVs
-@main.route('/auv', methods=['GET'])
-@login_required
-def get_all_auvs():
-    auvs = AUV.query.all()
-    return jsonify([auv.to_dict() for auv in auvs])
-
-#  User sessions
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-@main.route('/register', methods=['POST'])
+# USER ROUTES
+@main.route('/register', methods=['GET', 'POST'])
 def register():
-    data = request.get_json()
+    if request.method == 'GET':
+        return render_template('register.html')
+
+    if request.content_type == 'application/json':
+        data = request.get_json()
+    else:
+        data = request.form
 
     # Validate input
     if not data or not data.get('username') or not data.get('password'):
-        return jsonify({'error': 'Username and password are required.'}), 400
+        flash('Username and password are required.', 'error')
+        return render_template('register.html'), 400
 
     existing_user = User.query.filter_by(username=data['username']).first()
     if existing_user:
-        return jsonify({'error': 'Username already exists.'}), 400
+        flash('Username already exists.', 'error')
+        return render_template('register.html'), 400
 
     # Create user object
     new_user = User(username=data['username'])
@@ -110,10 +50,12 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message': 'User registered successfully.'}), 201
+    flash('Registration successful. You can now log in.',
+          'success')
+    return redirect(url_for('main.login'))
 
 
-@main.route('/login', methods=['POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -149,3 +91,98 @@ def logout():
 @login_required
 def dashboard():
     return render_template('dashboard.html')
+
+
+# AUV ROUTES/VIEWS
+
+# Get all AUVs
+@main.route('/auv', methods=['GET'])
+@login_required
+def list_all_auvs():
+    auvs = AUV.query.all()
+    return render_template("auv_list.html", auvs=auvs)
+
+
+# Create a new AUV
+@main.route('/auvs/create', methods=['POST'])
+@login_required
+def create_auv_html():
+    name = request.form.get('name')
+    status = request.form.get('status')
+
+    if not name or not status:
+        flash("Name and status are required.", 'error')
+        return redirect(url_for('main.list_all_auvs'))
+
+    auv = AUV(name=name,
+              status=status)
+
+    db.session.add(auv)
+    db.session.commit()
+
+    flash("AUV created successfully.", 'success')
+    return redirect(url_for('main.list_all_auvs'))
+
+
+# Read a single AUV by ID
+@main.route('/auv/<int:auv_id>', methods=['GET'])
+@login_required
+def get_auv(auv_id):
+    auv = AUV.query.get(auv_id)
+    if not auv:
+        return jsonify({"error": "AUV not found"}), 404
+    return jsonify(auv.to_dict())
+
+
+# Update an AUV
+@main.route('/auvs/edit/<int:auv_id>', methods=['GET'])
+@login_required
+def edit_auv_form(auv_id):
+    auv = AUV.query.get(auv_id)
+    if not auv:
+        flash("AUV not found.", 'error')
+        return redirect(url_for('main.list_auvs'))
+
+    return render_template('edit_auv.html', auv=auv)
+
+@main.route('/auvs/edit/<int:auv_id>', methods=['POST'])
+@login_required
+def update_auv_html(auv_id):
+    print("ID", auv_id)
+    auv = AUV.query.get(auv_id)
+    print(auv)
+    if not auv:
+        flash("AUV not found.", 'error')
+        return redirect(url_for('main.list_all_auvs'))
+
+    name = request.form.get('name')
+    status = request.form.get('status')
+
+    if not name or not status:
+        flash("Name and status are required.", 'error')
+        return redirect(url_for('main.edit_auv_form', auv_id=auv.id))
+
+    auv.name = name
+    auv.status = status
+    db.session.commit()
+
+    flash("AUV updated successfully.", 'success')
+    return redirect(url_for('main.list_all_auvs'))
+
+
+
+# Delete an AUV
+@main.route('/auvs/delete/<int:auv_id>', methods=['POST'])
+@login_required
+def delete_auv_html(auv_id):
+    print("XXXXXX++++++XXXXXX", type(auv_id))
+    auv = AUV.query.get(auv_id)
+    if not auv:
+        flash("AUV not found.", 'error')
+        return redirect(url_for('main.list_all_auvs'))
+
+    db.session.delete(auv)
+    db.session.commit()
+
+    flash("AUV deleted.", 'success')
+    return redirect(url_for('main.list_all_auvs'))

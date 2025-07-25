@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from datetime import datetime
 from . import db, bcrypt
 
 
@@ -10,6 +11,10 @@ class AUV(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(50), nullable=False)
+    depth = db.Column(db.FLoat, default=0.0)
+    temperature = db.Column(db.Float, default=0.0)
+    direction = db.Column(db.String(20), default="N")
+    last_updated = db.Column(db.Datetime, default=datetime.now())
 
     def __repr__(self):
         return f"<AUV id={self.id} name='{self.name}'>"
@@ -19,7 +24,11 @@ class AUV(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "status": self.status
+            "status": self.status,
+            "depth": self.depth,
+            "temperature": self.temperature,
+            "direction": self.direction,
+            "last_updated": self.last_updated
         }
 
 
