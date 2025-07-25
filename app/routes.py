@@ -5,6 +5,8 @@ from urllib.parse import urlparse
 from .models import *
 from . import db, bcrypt, login_manager
 
+import random
+
 main = Blueprint("main", __name__)
 
 @main.route('/')
@@ -186,3 +188,35 @@ def delete_auv_html(auv_id):
 
     flash("AUV deleted.", 'success')
     return redirect(url_for('main.list_all_auvs'))
+
+
+# AUV C2
+@main.route('/auv/<int:auv_id>/command', methods=['GET', 'POST'])
+def command_auv(auv_id):
+    auv = AUV.query.get_or_404(auv_id)
+
+    if request.method == 'POST':
+        command = request.form.get('command')
+        print(f"============{command}============")
+
+        if command == 'start':
+            auv.status = 'active'
+        elif command == 'stop':
+            auv.status = 'idle'
+        elif command == 'dive':
+            auv.depth = (auv.depth or 0) + 10  # Simulate diving deeper
+        elif command == 'surface':
+            auv.depth = max((auv.depth or 0) - 10, 0)  # Can't go above surface
+        elif command == 'turn_north':
+            auv.direction = 'North'
+        elif command == 'turn_south':
+            auv.direction = 'South'
+        elif command == 'simulate':
+            auv.temperature = round(2 + 28 * random.random(), 1)
+            auv.depth = round(5 + 50 * random.random(), 1)
+
+        db.session.commit()
+        flash("Command executed.", "info")
+        return redirect(url_for('main.command_auv', auv_id=auv_id))
+
+    return render_template('auv_command.html', auv=auv)

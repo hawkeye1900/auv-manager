@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Command AUV{% endblock %}
+
+{% block content %}
+<h2>Command AUV: {{ auv.name }}</h2>
+
+<p>Status: <strong>{{ auv.status }}</strong></p>
+<p>Depth: <strong>{{ auv.depth or "N/A" }} m</strong></p>
+<p>Temperature: <strong>{{ auv.temperature or "N/A" }} °C</strong></p>
+<p>Heading: <strong>{{ auv.direction or "N/A" }}</strong></p>
+<button name="command" value="simulate" form="commandform">Simulate Telemetry</button>
+
+<form id="commandform" method="POST">
+    <button name="command" value="start">Start</button>
+    <button name="command" value="stop">Stop</button>
+    <button name="command" value="dive">Dive</button>
+    <button name="command" value="surface">Surface</button>
+    <button name="command" value="turn_north">Turn North</button>
+    <button name="command" value="turn_south">Turn South</button>
+</form>
+
+<br>
+<a href="{{ url_for('main.list_all_auvs') }}">
+    <button>← Back to list</button>
+</a>
+{% endblock %}

@@ -11,10 +11,10 @@ class AUV(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(50), nullable=False)
-    depth = db.Column(db.FLoat, default=0.0)
+    depth = db.Column(db.Float, default=0.0)
     temperature = db.Column(db.Float, default=0.0)
     direction = db.Column(db.String(20), default="N")
-    last_updated = db.Column(db.Datetime, default=datetime.now())
+    last_updated = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
         return f"<AUV id={self.id} name='{self.name}'>"

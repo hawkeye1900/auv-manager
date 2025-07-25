@@ -2,6 +2,7 @@ from flask import Flask  # import Flask class
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 
 import os
@@ -12,6 +13,7 @@ bcrypt = Bcrypt()
 load_dotenv()
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app():
@@ -28,6 +30,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # suppress warning
 
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # import routes as blueprint
     from .routes import main
@@ -37,4 +40,3 @@ def create_app():
 
     # return the flask application
     return app
-

@@ -10,12 +10,14 @@
             <th>ID</th>
             <th>Name</th>
             <th>Status</th>
+            <th>Actions</th>
+            <th>Command and Control</th>
         </tr>
     </thead>
     <tbody>
         {% if not auvs %}
             <tr>
-                <td colspan="4">No AUV(s) currently listed</td>
+                <td colspan="5">No AUV(s) currently listed</td>
             </tr>
         {% else %}
             {% for auv in auvs %}
@@ -30,6 +32,7 @@
                     <button onclick="openModal({{ auv.id }})">
                             Delete
                     </button>
+
                     <form id="modal-{{ auv.id }}"
                           class="deleteForm"
                           style="display:None;
@@ -60,6 +63,13 @@
                             </div>
                         </div>
                     </form>
+                </td>
+                <td>
+                    <a href="{{ url_for('main.command_auv', auv_id=auv.id)}}">
+                        <button>
+                            Command
+                        </button>
+                    </a>
                 </td>
             </tr>
             {% endfor %}
