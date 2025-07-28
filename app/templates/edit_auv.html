@@ -1,21 +1,28 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 {% block title %}Edit AUV{% endblock %}
 
 {% block content %}
-<p>
-    <a href="{{ url_for('main.list_all_auvs') }}">
-    <button>Back to list</button></a>
-</p>
-<h2>Edit AUV</h2>
 
-<form method="POST" action="{{ url_for('main.update_auv_html', auv_id=auv.id) }}">
-    <label>Name:</label><br>
-    <input type="text" name="name" value="{{ auv.name }}" required><br>
+<div class="edit">
+    <p class="backBtn">
+        <a href="{{ url_for('main.list_all_auvs') }}">
+            <button>← Back to list</button>
+        </a>
+    </p>
 
-    <label>Status:</label><br>
-    <input type="text" name="status" value="{{ auv.status }}" required><br><br>
 
-    <button type="submit" >Update AUV</button>
-</form>
+    <h2>Edit AUV</h2>
+    <form method="POST" action="{{ url_for('main.update_auv_html', auv_id=auv.id) }}">
+        <label>Name:</label><br>
+        <input type="text" name="name" value="{{ auv.name }}" required><br>
+
+        <label>Status:</label><br>
+        <input type="text" name="status" value="{{ auv.status }}" required><br><br>
+
+        <button type="submit">Update AUV</button>
+    </form>
+</div>
+
 
 {% endblock %}

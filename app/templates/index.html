@@ -1,11 +1,15 @@
+<!DOCTYPE html>
+
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<div class="index">
     <h1>Welcome to the AUV Manager</h1>
     {% if current_user.is_authenticated %}
-        <p>Hello, {{ current_user.username }}!</p>
+    <p>Hello, {{ current_user.username }}!</p>
     {% else %}
-        <p>Hello! Please log in or register.</p>
+    <p>Please <a href="{{ url_for('main.login') }}">log in</a> or <a href="{{ url_for('main.register') }}">register</a>.</p>
     {% endif %}
+</div>
 {% endblock %}

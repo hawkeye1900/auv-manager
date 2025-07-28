@@ -1,0 +1,448 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+caption,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  display: block;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+/* Global */
+/* CSS Variables */
+:root {
+  --main-bg-color: #b5f7e4;
+  --secondary-bg-color: #fff;
+  --button-padding: 3px 12px;
+  --button-font-size: 1.2rem;
+  --button-border-radius: 10px;
+  --button-background-color: #434242;
+}
+
+/* base.html */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  height: 100vh;
+  min-width: 1280px;
+  background-color: var(--main-bg-color);
+}
+
+.nav {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 2px 2px 3px 4px #0000000c;
+  gap: 10px;
+}
+
+.logoutLink {
+  margin-left: auto;
+}
+
+.logoutBtn {
+  background-color: rgb(250, 22, 22);
+}
+
+.messages {
+  display: flex;
+  justify-content: center;
+  font-size: 4rem;
+  margin-top: 20px;
+  height: 24px;
+}
+
+.main {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
+/* index.html */
+.index,
+.login,
+.dashboard,
+.command {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.index a {
+  display: inline-block;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.index a:hover {
+  color: #597f74;
+}
+
+/* auv-list */
+.auv {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  width: 95%;
+  box-sizing: border-box;
+}
+
+.list-auv {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Table Styling */
+.list-auv h2,
+.add-auv h2 {
+  font-size: 2.7rem;
+  margin-bottom: 1rem;
+}
+
+.list-auv table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  background-color: var(--secondary-bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+}
+
+.list-auv th,
+.list-auv td {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 1.4rem;
+  word-wrap: break-word;
+}
+
+.list-auv th {
+  background-color: #e0f7f1;
+  font-weight: bold;
+}
+
+.list-auv tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.list-auv tr:hover {
+  background-color: #eef6f4;
+}
+
+/* Specific column widths */
+.list-auv th:nth-child(1),
+.list-auv td:nth-child(1) {
+  width: 10%;
+}
+
+.list-auv th:nth-child(2),
+.list-auv td:nth-child(2) {
+  width: 20%;
+}
+
+.list-auv th:nth-child(3),
+.list-auv td:nth-child(3) {
+  width: 12%;
+}
+
+.list-auv th:nth-child(4),
+.list-auv td:nth-child(4) {
+  width: 30%;
+}
+
+.list-auv td:nth-child(4) a {
+  width: 48%;
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+
+.list-auv th:nth-child(5),
+.list-auv td:nth-child(5) {
+  width: 20%;
+}
+
+.list-auv td:nth-child(5) a button {
+  width: 100%;
+}
+
+.list-auv button {
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+
+.list-auv td > a,
+.list-auv td > button {
+  display: inline-block;
+}
+
+/* Form Styling */
+.add-auv {
+  width: 30%;
+  background-color: var(--secondary-bg-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-auv form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-auv label {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.add-auv input {
+  padding: 0.6rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1.2rem;
+}
+
+.add-auv button {
+  margin-top: 0.6rem;
+}
+
+/* Modal Form */
+.deleteForm {
+  display: None;
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  height: 8rem;
+  background: white;
+  border: 1px solid black;
+  padding: 1em;
+}
+
+.deleteForm div {
+  margin-top: 2rem;
+}
+
+.deleteForm > button {
+  position: absolute;
+  top: 8%;
+  left: 90%;
+  border: 1px solid black;
+}
+
+/* Element styling */
+h1 {
+  font-size: 3rem;
+  margin: 20px;
+}
+
+h2 {
+  font-size: 2.7rem;
+  margin: 20px;
+}
+
+button {
+  cursor: pointer;
+  padding: var(--button-padding);
+  font-size: var(--button-font-size);
+  border-radius: var(--button-border-radius);
+  transition: opacity 0.7s ease;
+  background-color: var(--button-background-color);
+  color: #fff;
+}
+
+button:hover {
+  opacity: 0.7;
+}
+
+p,
+label {
+  font-size: 1.5rem;
+}
+
+input {
+  height: 1.5rem;
+  margin-bottom: 1.8rem;
+}
+
+/* Edit Form */
+.edit form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TODO - edit labels/input */
+.edit a,
+.command a {
+  position: absolute;
+  left: 1rem;
+  top: 25%;
+}
+
+.command {
+  display: flex;
+  width: 100vw;
+}
+
+.command h2 {
+  text-align: center;
+}
+
+.control-panel {
+  display: flex;
+}
+
+.controls,
+.telemetry {
+  width: 50%;
+}
+
+.telemetry p {
+  display: flex;
+  margin: 10px 0;
+}
+
+.telemetry strong {
+  margin-left: 10px;
+}
+
+.telemetry button {
+  margin-top: 30px;
+}
+
+#commandform {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid #fff;
+  padding: 2rem 0;
+  background-color: var(--secondary-bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 420px;
+}
+
+#commandform button {
+  width: auto;
+}

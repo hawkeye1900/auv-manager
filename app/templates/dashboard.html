@@ -1,12 +1,16 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2>Dashboard</h2>
-<p>Welcome back, {{ current_user.username }}!</p>
-<p>This area is secure and available only to logged-in users.</p>
+<div class="dashboard">
+    <h2>Dashboard</h2>
+    <p>Welcome back, {{ current_user.username }}!</p>
+    <p>This area is secure and available only to logged-in users.</p>
 
-<div>
-    <a href="{{ url_for('main.list_all_auvs') }}"><button>List all AUVs</button></a>
+    <div>
+        <a href="{{ url_for('main.list_all_auvs') }}"><button>List all AUVs</button></a>
+    </div>
 </div>
+
 {% endblock %}

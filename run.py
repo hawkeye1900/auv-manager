@@ -2,6 +2,12 @@
 from app import create_app, db
 app = create_app()
 
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = 'no-store'
+    return response
+
+
 if __name__ == "__main__":
     # create tables (dev only)
     with app.app_context():
