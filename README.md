@@ -4,7 +4,7 @@ A full-stack Flask web application to manage and simulate control of a fleet of 
 
 Built For
 
-This project is part of a deeper learning journey exploring python full stack frameowrks. It is designed with:
+This project is part of a deeper learning journey exploring python full stack frameworks. It is designed with:
 
 Microservices and containerisation in mind
 
